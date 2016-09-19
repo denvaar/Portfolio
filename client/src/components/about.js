@@ -10,7 +10,6 @@ class About extends Component {
   componentDidMount() {
     axios.get("http://localhost:8000/api/v1/about-section/1/").then(
       response => {
-        console.log(response.data);
         this.setState({
           content: response.data.content
         });
@@ -19,11 +18,9 @@ class About extends Component {
   }
 
   render() {
-    return (
-      <div className="body-content" dangerouslySetInnerHTML={this.state.content}>
-        <p><i>Updated: September 2016</i></p>
-      </div>
-    );
+    var s = this.state.content;
+    console.log(s);
+    return React.createElement('div', { className: 'body-content', dangerouslySetInnerHTML: {__html: s} });
   }
 }
 
