@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+    client:
+      build: client
+      working_dir: /project/client
+      command: node server.js
+      ports:
+        - "3000:3000"
+      volumes:
+        - ./client:/project/client
+        - /project/client/node_modules
+    db:
+      image: postgres
+
+    server:
+      build: server
+      environment:
+        - PROJECT_ENV=development_docker
+        - PYTHONPATH=/code/server/
+        - DJANGO_SETTINGS_MODULE=settings.development_docker
+      command: python server/manage.py runserver 0.0.0.0:8000
+      volumes:
+        - .:/code
+      ports:
+        - "8000:8000"
+      links:
+        - db
+        - client
