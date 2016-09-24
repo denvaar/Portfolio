@@ -4,7 +4,7 @@ class Post extends Component {
   render() {
     return (
       <div className='posts'>
-        <p>{this.props.params.postTitle}</p>
+        <p>{this.props.params.slug}</p>
       </div>
     );
   }

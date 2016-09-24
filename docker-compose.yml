@@ -4,7 +4,7 @@ services:
     client:
       build: client
       working_dir: /project/client
-      command: node server.js
+      command: npm start
       ports:
         - "3000:3000"
       volumes:

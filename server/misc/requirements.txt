@@ -1,5 +1,4 @@
 Django==1.10.1
 djangorestframework==3.3.3
+django-cors-middleware
 psycopg2==2.6.1
-django-js-reverse==0.7.2
-django-webpack-loader==0.3.2

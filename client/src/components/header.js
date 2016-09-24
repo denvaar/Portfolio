@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
 
-import BannerImg from '../img/paint-bw.jpg';
+import BannerImg from '/project/client/src/img/paint.jpg';
 
 class Header extends Component {
   render() {

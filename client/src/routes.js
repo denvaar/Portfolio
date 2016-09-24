@@ -9,8 +9,7 @@ import Post from './components/post';
 export default (
   <Route path="/" component={Header}>
     <IndexRoute component={Main} />
-    <Route path="/posts" component={PostList}>
-      <Route path="/posts/:postTitle" component={Post}/>
-    </Route>
+    <Route path="/posts" component={PostList}/>
+    <Route path="/posts/:slug" component={Post}/>
   </Route>
 );

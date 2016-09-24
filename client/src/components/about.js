@@ -2,9 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import axios from 'axios';
 
 class About extends Component {
+  
   constructor(props) {
     super(props);
-    this.state = { content: '' };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -18,9 +19,12 @@ class About extends Component {
   }
 
   render() {
-    var s = this.state.content;
-    console.log(s);
-    return React.createElement('div', { className: 'body-content', dangerouslySetInnerHTML: {__html: s} });
+    return React.createElement('div',
+      {
+        className: 'body-content',
+        dangerouslySetInnerHTML: {__html: this.state.content}
+      }
+    );
   }
 }
 

@@ -99,12 +99,16 @@ TEMPLATES = [
 ]
 
 MIDDLEWARE = (
+    'corsheaders.middleware.CorsMiddleware',
+    
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'urls'
 
@@ -121,7 +125,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     
     'rest_framework',
-    'webpack_loader',
+    'corsheaders',
 
     'apps.core',
     'apps.about',

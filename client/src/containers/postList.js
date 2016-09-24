@@ -16,7 +16,6 @@ class PostList extends Component {
           <li><Link to="/posts/second-post">Second Post</Link></li>
           <li><Link to="/posts/third-post">Third Post</Link></li>
         </ul>
-        {this.props.children}
       </div>
     );
   }
