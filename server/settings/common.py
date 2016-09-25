@@ -129,6 +129,7 @@ INSTALLED_APPS = (
 
     'apps.core',
     'apps.about',
+    'apps.posts',
 )
 
 REST_FRAMEWORK = {

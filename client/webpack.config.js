@@ -13,7 +13,6 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loaders: ['babel-loader'] 
-        //loaders: ['react-hot', 'babel-loader?presets[]=es2015,presets[]=react'],
       },  
       {
         test: /\.(png|jpg|gif|ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
@@ -24,9 +23,13 @@ module.exports = {
       {   
         test: /\.css$/,
         loader: 'style-loader!css-loader' 
-      }   
-    ]   
-  },
+      },
+      {
+        test: /\.json$/,
+        loader: 'json'
+      }
+    ]
+  }
 };
 
 /*var path = require('path');

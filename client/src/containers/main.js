@@ -4,13 +4,13 @@ import { createStore } from 'redux';
 import About from '../components/about';
 //import reducer from '../reducers/reducer';
 
-//const store = createStore(reducer);
-
 class Main extends Component {
   render() {
     return (
       <div>
         <About />
+        <br/>
+        <p className='body-content'>- - - other sections will go here - - -</p>
       </div>
     );
   }
