@@ -5,7 +5,6 @@ dterm_stuff/
 .dockerbashrc
 server/celerybeat-schedule
 docker_static/
-# server/apps/core/static/core/bundles
 
 *.DS_Store
 

@@ -17,7 +17,6 @@ module.exports = {
       {
         test: /\.(png|jpg|gif|ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
         exclude: /node_modules/,
-        //loader: 'url-loader?limit=10000'
         loader: 'file-loader'
       },
       {   

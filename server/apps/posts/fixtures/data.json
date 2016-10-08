@@ -1,0 +1,39 @@
+[
+   {
+      "model":"posts.post",
+      "pk":1,
+      "fields":{
+         "title":"First Post",
+         "summary":"Just testing out the API",
+         "content":"# Header\r\n\r\nother stuff here",
+         "date_created":"2016-09-23",
+         "is_published":true,
+         "slug":"first-post"
+      }
+   },
+   {
+      "model":"posts.post",
+      "pk":2,
+      "fields":{
+         "title":"Python Code Optimization Tips",
+         "summary":"Tips from Guido Van Rossum about code optimization",
+         "content":"## Introduction\r\nThe other day I came across [an interesting article](https://wiki.python.org/moin/PythonSpeed/PerformanceTips), written by the creator of Python, Guido van Rossum. A friend had asked him what would be the best way to convert a list of integers (representing ASCII characters) into a string. In the article, Rossum analysed several different ways to tackle this simple problem. I learned several general tips to keep in mind for when speed and performance is important. This entry demonstrates what I learned from the article, and illustrates some test results as well.\r\n\r\n#### One: Focus on bottlenecks.\r\nCode optimization is fun and interesting. It can be tempting to nitpick every line of code in an effort to gain performance increases. It is important, however, to keep in mind that *real* performance improvement is found only at the bottlenecks. This is obviously not Python-specific. In real-world situations, your efficiency as a developer is often just as valuable as the efficient code that you produce. Only optimize code where a proven speed bottleneck exists. Doing so will save a lot of work and leave you free to tackle more problems. That being said, this tip is not an excuse to be lazy or to write poor code.\r\n\r\n#### Two: Local variables are faster than globals.\r\nIn Python, function names are considered global constants. That means if you are going to use a built-in function inside a loop, for example, it's possible to save some overhead by assigning it to a local variable before the loop. Rossum points out that local variables are faster than global variables. Here's an example to demonstrate:\r\n\r\n```python\r\ndef option1(l):\r\n    string = \"\"\r\n    _chr = chr\r\n    for i in l:\r\n        string = string + _chr(i)\r\n    return string\r\n\r\ndef option2(l):\r\n    string = \"\"\r\n    for i in l:\r\n        string = string + chr(i)\r\n    return string\r\n```\r\n\r\n`Option1` stores the global built-in function `chr` in a local variable, which saves about one second of execution time. Below are the results of executing these pieces of code 100,000 times with a list of 1024 digits.\r\n\r\n```Option 1:  11.59 seconds```  \r\n```Option 2:  12.74 seconds```  \r\n\r\nThese results may not seem like much, but applied to some situations, the use of this simple optimization could help drastically improve performance.\r\n\r\n#### Three: Use functions implemented in C when possible.\r\nRossum points out that you can't really get any faster than C. Choose functions that are implemented in C whenever possible for massive speed-up's. This means that it's well worth your time to check the Python documentation for a built-in function that does what you want. Rossum demonstrated the use of a string concatenation function from the string module, which is written in C. I have written the example below to show just how much faster using C code can be.\r\n\r\n```\r\nimport string\r\n\r\ndef option4(l):\r\n    return string.joinfields(map(chr, l), \"\")\r\n```\r\n\r\nNotice how the code executed around 4 seconds faster than the other two versions:\r\n\r\n```Option 1:  11.49 seconds```  \r\n```Option 2:  12.64 seconds```  \r\n```Option 4:  7.79 seconds```  \r\n\r\nWhat's even more impressive is this one-line solution using the array module, which is also implemented in C. The array module is for handling sequences of fixed-type numerical data efficiently. A normal Python list is handy because it does not care what type of data you put inside of it, but it's convenience comes at a performance cost. The Array module only lets you create a sequence of data that is all the same type, which saves lots of overhead and space. The following code completes execution in only 3.76 seconds:\r\n\r\n```\r\nimport array\r\n\r\ndef option5(l):\r\n    return array.array('B', l).tostring()\r\n```\r\n\r\n## Conclusion\r\nIt's amazing how small details have potential to make a big impact on code performance. Taking the time to profile your code will reveal performance bottlenecks. It's important to be aware of what's going on behind the scenes in the code that you write.\r\n\r\nHere are the results of each function:\r\n\r\n```Option 1:  11.52 seconds```  \r\n```Option 2:  12.65 seconds```  \r\n\r\n```Option 4:  7.79 seconds```  \r\n```Option 5:  3.76 seconds```  \r\n\r\nCheck out the article that I have been referencing for more tips and performance results. You can find a link in the introduction, or the URL in the references section below.",
+         "date_created":"2015-10-23",
+         "is_published":true,
+         "slug":"python-code-optimization-tips"
+      }
+   },
+   {
+      "model":"posts.post",
+      "pk":3,
+      "fields":{
+         "title":"PyQt5 Install",
+         "summary":"pyqt 5 install on osx",
+         "content":"### Introduction ###\r\n\r\nPyQt is a set of Python bindings for the C++ Qt application framework. It is a powerful framework for creating cross-platform GUI applications, and much more. PyQt4 is easily installed via conda, but I discovered that there were some annoying visual inconsistencies on OSX, such as the text on these buttons shown below. The left window is using python2.7 and PyQt4. Installing a newer version of PyQt seemed to fix the issue. I have documented the installation process below.\r\n\r\n>![home page admin view](http://readitandweep.denverpsmith.com/static/guiButtons.png)\r\n\r\n### Installation ###\r\n\r\n*I used the following steps to install PyQt5 on Mac OSX Yosemite 10.10.5*\r\n\r\n1. [Download](https://www.continuum.io/downloads) and install the Anaconda package management system.\r\n\r\n2. Create a new conda environment with a Python3.4 interpreter. From what I understand, PyQt5 requires Python version 3.4.\r\n\r\n    ```conda create -n qt5python3 python=3.4```\r\n\r\n3. Enter the newly created environment and install PyQt.\r\n\r\n```source activate qt5python3\r\nconda install -c https://conda.anaconda.org/dsdale24 pyqt5\r\n```\r\n\r\n4. Test the installation.\r\n\r\n``` python\r\nimport PyQt5\r\n```",
+         "date_created":"2015-11-09",
+         "is_published":true,
+         "slug":"pyqt5-install"
+      }
+   }
+]
+

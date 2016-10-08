@@ -3,6 +3,7 @@ html, body {
   padding: 0;
   font-family: 'Avenir Next', sans-serif;
   color: #545454;
+  background: #fafafa;
 }
 
 pre {
@@ -10,6 +11,7 @@ pre {
   border-radius: 2px;
   background: #474949;
   color: #7f7f7f;
+  overflow-x: scroll;
 }
 
 code {
@@ -73,5 +75,75 @@ a:hover, a:active, a:hover > i {
 
 .body-content {
   margin: 0 auto;
-  width: 500px;
+  width: 600px;
+}
+
+.post-list-container {
+  margin: 0 auto;
+  width: 700px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row; 
+  flex-direction: row;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+  
+  .column {
+    width: 33.3%;
+    float: left;
+  }
+
+  .post-card {
+    display: inline-block;
+    width: 200px; 
+    min-width: 200px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-left: 6px solid #4caf50;
+    box-shadow: 0 1px 10px #ddd;
+    border-radius: 2px;
+    margin: 4px;
+    padding: 10px;
+    min-height: 100px;
+  }
+    .post-card a {
+      text-decoration: none;
+    }
+    .post-card h3 {
+      margin: 0 0 3px;
+    }
+    .post-card .date {
+      font-size: 12px;
+      font-style: italic;
+    }
+
+.search {
+  float: right;
+}
+.search input {
+  width: 200px;
+  height: 25px;
+  padding-right: 50px;
+  padding-left: 7px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+.search button {
+margin-left: -50px;
+    height: 29px;
+    width: 50px;
+    background: #0089ff;
+    color: #d2eaff;
+    border: none;
+    padding-top: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    -webkit-appearance: none;
+}
+.search button:hover {
+  background: #2c9dff;
+}
+.search button:active {
+  background: #0075d9;
 }
