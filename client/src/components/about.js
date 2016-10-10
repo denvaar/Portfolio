@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import axios from 'axios';
 
+import profilePic from '../img/profilePic.png';
+
 class About extends Component {
   
   constructor(props) {
@@ -19,11 +21,15 @@ class About extends Component {
   }
 
   render() {
-    return React.createElement('div',
-      {
-        className: 'body-content',
-        dangerouslySetInnerHTML: {__html: this.state.content}
-      }
+    return (
+      <div className="body-content">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <img className="profile-pic" src={profilePic}></img>
+        <div dangerouslySetInnerHTML={{__html: this.state.content}} />
+      </div>
     );
   }
 }

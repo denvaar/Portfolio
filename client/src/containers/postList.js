@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import axios from 'axios';
 
 import PostCard from '../components/postCard';
@@ -39,7 +40,7 @@ class PostList extends Component {
   
   onSearch(text) {
     var filterPosts = this.state.posts.filter((obj) => {
-      return obj.title.includes(text);
+      return obj.title.toLowerCase().includes(text.toLowerCase());
     });
     this.setState({filterPosts: filterPosts});
   }
@@ -65,9 +66,30 @@ class PostList extends Component {
         <h2>Posts</h2>
         <SearchForm onSearch={this.onSearch} />
         <div className="post-list-container">
-          <div className="column">{firstColumn}</div>
-          <div className="column">{secondColumn}</div>
-          <div className="column">{thirdColumn}</div>
+          <div className="column">
+            <ReactCSSTransitionGroup
+              transitionName="example"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={500}>
+              {firstColumn}
+            </ReactCSSTransitionGroup>
+          </div>
+          <div className="column">
+            <ReactCSSTransitionGroup
+              transitionName="example"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={500}>
+              {secondColumn}
+            </ReactCSSTransitionGroup>
+          </div>
+          <div className="column">
+            <ReactCSSTransitionGroup
+              transitionName="example"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={500}>
+              {thirdColumn}
+            </ReactCSSTransitionGroup>
+          </div>
         </div>
       </div>
     );

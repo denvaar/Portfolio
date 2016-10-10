@@ -1,10 +1,14 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link, IndexLink } from 'react-router';
 
-import BannerImg from '../img/paint.jpg';
+import { requestToken } from '../actions/actions';
+import BannerImg from '../img/mountains.jpg';
 
 class Header extends Component {
   render() {
+    console.log(this.props);
     return (
       <div>
         <nav className="top-nav">
@@ -22,4 +26,7 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ requestToken }, dispatch);
+}
+export default connect(null, mapDispatchToProps)(Header);

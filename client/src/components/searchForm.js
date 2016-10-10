@@ -11,14 +11,16 @@ class SearchForm extends React.Component {
 
   handleChange(event) {
     this.setState({value: event.target.value});
-    this.onSearch(event.target.value);
+    this.onSearch(event.target.value.trim());
   }
 
   render() {
     return (
       <div className="search">
         <input placeholder="Search posts..." onChange={this.handleChange} />
-        <button onClick={() => this.onSearch(this.state.value)}>Search</button>
+        <button onClick={() => this.onSearch(this.state.value.trim())}>
+          Search
+        </button>
       </div>
     );
   }

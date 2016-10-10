@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta, datetime
 
 DEBUG = True
 
@@ -128,26 +129,33 @@ INSTALLED_APPS = (
     'corsheaders',
 
     'apps.core',
+    'apps.accounts',
     'apps.about',
     'apps.posts',
 )
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION': (
-        'rest_framework.authentication.SessionAuthentication',
+    #'DEFAULT_AUTHENTICATION': (
+    #    'rest_framework.authentication.SessionAuthentication',
+    #),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_THROTTLE_CLASSES': (
-        'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle'
-    ),
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/day',
-        'user': '1000/day'
-    }
+    #'DEFAULT_PERMISSION_CLASSES': (
+    #    'rest_framework.permissions.IsAuthenticated',
+    #),
+    #'DEFAULT_THROTTLE_CLASSES': (
+    #    'rest_framework.throttling.AnonRateThrottle',
+    #    'rest_framework.throttling.UserRateThrottle'
+    #),
+    #'DEFAULT_THROTTLE_RATES': {
+    #    'anon': '100/day',
+    #    'user': '1000/day'
+    #}
+}
 
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': timedelta(days=1),
 }
 
 # We do this so that django's collectstatic copies 
