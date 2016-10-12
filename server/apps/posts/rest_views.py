@@ -1,5 +1,5 @@
-from rest_framework.generics import RetrieveAPIView, ListAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .serializers import PostSerializer
 from .models import Post
@@ -17,3 +17,7 @@ class PostList(ListAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
 
+
+class CreatePost(CreateAPIView):
+    permission_classes = (IsAuthenticated, )
+    serializer_class = PostSerializer

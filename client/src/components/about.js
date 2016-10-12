@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 
 import profilePic from '../img/profilePic.png';
@@ -21,6 +22,7 @@ class About extends Component {
   }
 
   render() {
+    console.log("user about", this.props.user);
     return (
       <div className="body-content">
         <br/>
@@ -34,4 +36,10 @@ class About extends Component {
   }
 }
 
-export default About;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(mapStateToProps, {})(About);

@@ -21,6 +21,8 @@ code {
   font-size: 14px;
 }
 
+.pull--right { float: right; }
+
 .posts {
   font-family: 'Merriweather', serif;
   margin-bottom: 30px;

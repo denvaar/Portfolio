@@ -6,14 +6,14 @@ import storage from '../utils/localStorageUtils';
 
 const requireAuth = (ComposedComponent) => {
   class Authentication extends Component {
-    
+
     componentWillMount() {
       let token = storage.get('auth-token');
       if (!this.props.authenticated && !token) {
-        this.context.router.push('/');
+        this.context.router.push('/login');
       }
       else if (!this.props.authenticated && token) {
-        console.log('fetchUser(token) next');
+        this.props.fetchUser(token);
       }
     }
     
@@ -29,10 +29,13 @@ const requireAuth = (ComposedComponent) => {
 
   }
 
+  Authentication.contextTypes = {
+    router: PropTypes.object
+  };
+
   const mapStateToProps = (state) => {
     return {authenticated: state.user.authenticated};
   }
-
   return connect(mapStateToProps, { fetchUser })(Authentication);
 }
 

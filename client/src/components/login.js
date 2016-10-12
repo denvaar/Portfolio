@@ -1,17 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { requestToken } from '../actions/actions';
+import { requestToken, fetchUser } from '../actions/actions';
 
 class Login extends Component {
 
   constructor(props) {
     super(props);
-
+    console.log(this.props);
   }
 
   handleClick(event) {
-    console.log(this.props, '-- Login');
     const username = this.refs.username;
     const password = this.refs.password;
     const creds = {
@@ -19,6 +18,7 @@ class Login extends Component {
       password: password.value.trim()
     };
     this.props.requestToken(creds, this.context.router);
+    //console.log(this.props);
     //dispatch(requestToken(creds));
   }
 
@@ -38,7 +38,6 @@ class Login extends Component {
                 className="btn btn-primary">
           Login
         </button>
-
       </div>
     );
   }
@@ -50,8 +49,8 @@ Login.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return {user: state.user};
 }
 
-export default connect(mapStateToProps, { requestToken })(Login);
+export default connect(mapStateToProps, { requestToken, fetchUser })(Login);
 
