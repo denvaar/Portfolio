@@ -60,8 +60,17 @@ class PostCreate extends Component {
     return (
       <div className="posts body-content">
         <div dangerouslySetInnerHTML={this.rawMarkup()} /> 
-        <textarea onChange={this.handleChange} ref="postBody" placeholder="Write your post here..." />
-        <button onClick={(event) => {this.handlePostSave(event)}}>Save</button>
+        <form>
+          <input type="text" ref="title" placeholder="Title" />
+          <input type="text" ref="date" placeholder="Date" />
+          <input type="text" ref="summary" placeholder="Summary" />
+          <textarea onChange={this.handleChange} ref="postBody" className="editor" placeholder="Write your post here using markdown syntax..." />
+          <input type="checkbox" id="publish" ref="publish" value="publish" /> <label for="publish">Publish</label>
+          <div className="action-group">
+            <input type="submit" value="Save" onClick={(event) => {this.handlePostSave(event)}} />
+            <input type="button" value="Cancel" />
+          </div>
+        </form>
       </div>
     );
   }

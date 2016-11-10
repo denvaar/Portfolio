@@ -9,6 +9,7 @@ const requireAuth = (ComposedComponent) => {
 
     componentWillMount() {
       let token = storage.get('auth-token');
+      console.log(token);
       if (!this.props.authenticated && !token) {
         this.context.router.push('/login');
       }

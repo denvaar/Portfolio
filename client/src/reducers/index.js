@@ -2,11 +2,12 @@ import { combineReducers } from 'redux';
 
 import DemoReducer from './reducerDemo';
 import {
-  POST_CREATED,
+  BAD_CREDENTIALS,
+  LOGIN_FAILURE,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
-  LOGIN_FAILURE,
-  BAD_CREDENTIALS
+  POST_CREATED,
+  USER_RETRIEVED,
 } from '../actions/actions';
 
 const INITIAL_STATE = {
@@ -15,6 +16,7 @@ const INITIAL_STATE = {
 
 const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case USER_RETRIEVED:
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
         authenticated: true

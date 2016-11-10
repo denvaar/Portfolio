@@ -12,7 +12,7 @@ import requireAuth from './components/authentication';
 export default (
   <Route path="/" component={Header}>
     <IndexRoute component={Main} />
-    <Route path="/posts" component={PostList} />
+    <Route path="/posts" component={requireAuth(PostList)} />
     <Route path="/posts/create" component={requireAuth(PostCreate)} />
     <Route path="/posts/:slug" component={requireAuth(Post)} />
     <Route path="/login" component={Login} />

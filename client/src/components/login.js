@@ -7,7 +7,6 @@ class Login extends Component {
 
   constructor(props) {
     super(props);
-    console.log(this.props);
   }
 
   handleClick(event) {
@@ -17,7 +16,9 @@ class Login extends Component {
       username: username.value.trim(),
       password: password.value.trim()
     };
+    
     this.props.requestToken(creds, this.context.router);
+    
     //console.log(this.props);
     //dispatch(requestToken(creds));
   }

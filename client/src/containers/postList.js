@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import axios from 'axios';
 
@@ -61,9 +63,13 @@ class PostList extends Component {
     var firstColumn = postCards.slice(0, m);
     var secondColumn = postCards.slice(m, n);
     var thirdColumn = postCards.slice(n, postCards.length);
+    console.log(this.props.user)
     return (
       <div className="body-content">
         <h2>Posts</h2>
+        {this.props.user.authenticated &&
+          <Link to={"/posts/create"}>New Post</Link>
+        }
         <SearchForm onSearch={this.onSearch} />
         <div className="post-list-container">
           <div className="column">
@@ -96,4 +102,11 @@ class PostList extends Component {
   }
 }
 
-export default PostList;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps, null)(PostList);
+

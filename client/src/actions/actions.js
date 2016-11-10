@@ -18,7 +18,7 @@ export const requestToken = (props, router) => {
     return axios.post("http://localhost:8000/api/v1/accounts/sessions", props).then((response) => {
       if (response.status === 201) {
         storage.setKey(response.data.jwt);
-        console.log(storage);
+        console.log("success!", storage);
         dispatch(loginSuccess(response));
       } else {
         dispatch(loginFailure(response));
