@@ -10,6 +10,13 @@ export const BAD_CREDENTIALS = 'BAD_CREDENTIALS';
 export const USER_RETRIEVED = 'USER_RETRIEVED';
 export const POST_CREATED = 'POST_CREATED';
 export const SUCCESS_NOTIFICATION_ADD = 'SUCCESS_NOTIFICATION_ADD';
+export const NOTIFICATION_CLEAR = 'NOTIFICATION_CLEAR';
+
+export const clearNotifications = (props) => {
+  return dispatch => {
+    dispatch(notificationClear());
+  }
+}
 
 /*
  @param {Object} props :: {email: email, password: password}
@@ -58,7 +65,9 @@ export const logout = (router) => {
 export const createPost = (text, token) => {
   return dispatch => {
     const config = {headers: {'Authorization': `JWT ${token}`}};
+    console.log(config)
     return axios.post("http://localhost:8000/api/v1/posts/create/", text, config).then((response) => {
+      console.log(response);
       dispatch(postCreated(response));
     }).catch((error) => {
       console.log(error);
@@ -114,3 +123,8 @@ const addSuccessNotification = (message) => {
   };
 }
 
+const notificationClear = (message) => {
+  return {
+    type: NOTIFICATION_CLEAR
+  };
+}

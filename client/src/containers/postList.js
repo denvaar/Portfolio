@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import axios from 'axios';
 
@@ -13,10 +13,15 @@ class PostList extends Component {
     super(props);
     this.state = {posts: [], filterPosts: []};
     this.onSearch = this.onSearch.bind(this);
+    this.handlePostCreate = this.handlePostCreate.bind(this);
   }
 
   componentDidMount() {
     var posts = this.getPosts();
+  }
+
+  handlePostCreate() {
+    browserHistory.push("/posts/create");
   }
 
   getPosts() {
@@ -68,9 +73,13 @@ class PostList extends Component {
       <div className="body-content">
         <h2>Posts</h2>
         {this.props.user.authenticated &&
-          <Link to={"/posts/create"}>New Post</Link>
+          <button className="post-create"
+                  onClick={this.handlePostCreate}>
+            New Post
+          </button>
         }
         <SearchForm onSearch={this.onSearch} />
+        <div className="hr-1" />
         <div className="post-list-container">
           <div className="column">
             <ReactCSSTransitionGroup

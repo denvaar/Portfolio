@@ -182,12 +182,17 @@ margin-left: -50px;
   transition: opacity 300ms ease-in;
 }
 
+.hr-1 {
+  height: 2px;
+  background: #ddd;
+  margin: 5px 0 5px 0;
+}
 
 .logout {
   margin-right: 20px;
-  margin-top: 6px;
+  margin-top: 10px;
   cursor: pointer;
-  height: 35px;
+  height: 29px;
   width: 100px;
   background: #585858;
   color: #c3c3c3;
@@ -196,8 +201,20 @@ margin-left: -50px;
   border-radius: 3px;
   -webkit-appearance: none;
 }
+.post-create {
+  cursor: pointer;
+  height: 29px;
+  width: 100px;
+  background: #4CAF50;
+  color: #ffffff;
+  border: none;
+  font-size: 14px;
+  border-radius: 3px;
+  -webkit-appearance: none;
+}
 
 .logout:hover { background: #757575; }
+.post-create:hover { background: #6fc772; }
 
 .editor {
   border-radius: 4px;
@@ -231,7 +248,7 @@ margin-left: -50px;
 
 .action-group > a { float: right; }
 .action-group > input { float: right; margin-left: 3px; }
-
+.action-group { margin-bottom: 20%; }
 form {
   font-family: 'Avenir Next', sans-serif;
 }
@@ -248,7 +265,7 @@ form > input[type="text"], form > input[type="password"] {
 }
 
 form > input[type="checkbox"] {
-
+  margin-top: 10px;
 }
 
 form > textarea {
@@ -286,12 +303,11 @@ form input[type="button"]:hover { background: #757575; }
 form input[type="submit"]:hover { background: #3fa6ff; }
 
 .live-editor {
-  height: 265px;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+  max-height: 265px;
   overflow-y: scroll;
   border-radius: 3px;
   padding: 5px;
+  background: #fff;
 }
 
 .snackbar {

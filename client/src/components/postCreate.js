@@ -19,14 +19,22 @@ class PostCreate extends Component {
   handlePostSave(event) {
     event.preventDefault();
     const text = this.refs.postBody.value;
+    const title = this.refs.title.value;
+    const date = this.refs.date.value;
+    const summary = this.refs.summary.value;
+    const publish = this.refs.publish.value;
+
     let token = storage.get('auth-token');
     let data = {
-      title: "TEST",
+      title: title,
       content: text,
-      slug: "TEST",
-      summary: "A TEST",
+      summary: summary,
+      is_published: true, //publish === "publish" ? true : false
+      date_created: date
     };
-    
+   
+    console.log(data);
+
     this.props.createPost(data, token);
   }
 
@@ -62,8 +70,15 @@ class PostCreate extends Component {
           <input type="text" ref="title" placeholder="Title" />
           <input type="text" ref="date" placeholder="Date" />
           <input type="text" ref="summary" placeholder="Summary" />
-          <input type="checkbox" id="publish" ref="publish" value="publish" /> <label htmlFor="publish">Publish</label>
+          <input type="checkbox"
+                 id="publish"
+                 ref="publish"
+                 value="publish" />
+            <label htmlFor="publish" style={{top: 2+"px", position: "relative"}}>
+              &nbsp;Publish <i className="fa fa-newspaper-o"></i>
+            </label>
           <textarea onChange={this.handleChange} ref="postBody" className="editor" placeholder="Write your post here using markdown syntax..." />
+          <div className="hr-1" />
           <div className="posts live-editor"
                dangerouslySetInnerHTML={this.rawMarkup()} />
           <div className="action-group">

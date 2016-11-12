@@ -9,6 +9,7 @@ import {
   POST_CREATED,
   USER_RETRIEVED,
   SUCCESS_NOTIFICATION_ADD,
+  NOTIFICATION_CLEAR,
 } from '../actions/actions';
 
 const INITIAL_STATE = {
@@ -49,11 +50,15 @@ const post = (state = {}, action) => {
   }
 }
 
-const notification = (state = {}, action) => {
+const notification = (state = {message: null}, action) => {
   switch (action.type) {
     case SUCCESS_NOTIFICATION_ADD:
       return Object.assign({}, state, {
         message: action.message
+      });
+    case NOTIFICATION_CLEAR:
+      return Object.assign({}, state, {
+        message: null
       });
     default:
       return state;
