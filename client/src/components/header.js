@@ -5,34 +5,39 @@ import { Link, IndexLink } from 'react-router';
 
 import { requestToken, logout } from '../actions/actions';
 import BannerImg from '../img/mountains.jpg';
+import NotificationManager from './notificationManager';
 
 class Header extends Component {
 
+  constructor(props) {
+    super(props);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
   handleLogout() {
     this.props.logout(this.context.router);
-    //this.update();
   }
 
   render() {
-    console.log("user header", this.props.user);
     return (
       <div>
         <nav className="top-nav">
           <span className="top-nav-content">Denver Smith&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-          <IndexLink to="/" activeClassName="active-nav-link">About</IndexLink>
-          &nbsp;&nbsp;&nbsp;
-          <Link to="/posts" activeClassName="active-nav-link">Posts</Link>
-          {this.props.user.authenticated && 
-           <IndexLink to="/"
-                      className="pull--right"
-                      activeClassName="active-nav-link"
-                      onClick={this.handleLogout.bind(this)}>Logout</IndexLink>}
-          </span>
+            <IndexLink to="/" activeClassName="active-nav-link">About</IndexLink>
+            &nbsp;&nbsp;&nbsp;
+            <Link to="/posts" activeClassName="active-nav-link">Posts</Link>
+            {this.props.user.authenticated && 
+             <button className="pull--right logout"
+                     onClick={this.handleLogout}>
+               Logout
+             </button>}
+            </span>
         </nav>
         <div className="banner-image">
           <img src={BannerImg}></img>
         </div>
         {this.props.children}
+        <NotificationManager />
       </div>
     );
   }
@@ -47,4 +52,5 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ logout, requestToken }, dispatch);
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

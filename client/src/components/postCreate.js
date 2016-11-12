@@ -20,7 +20,6 @@ class PostCreate extends Component {
     event.preventDefault();
     const text = this.refs.postBody.value;
     let token = storage.get('auth-token');
-    console.log(`sending ${text} to api...`);
     let data = {
       title: "TEST",
       content: text,
@@ -59,13 +58,14 @@ class PostCreate extends Component {
   render() {
     return (
       <div className="posts body-content">
-        <div dangerouslySetInnerHTML={this.rawMarkup()} /> 
         <form>
           <input type="text" ref="title" placeholder="Title" />
           <input type="text" ref="date" placeholder="Date" />
           <input type="text" ref="summary" placeholder="Summary" />
+          <input type="checkbox" id="publish" ref="publish" value="publish" /> <label htmlFor="publish">Publish</label>
           <textarea onChange={this.handleChange} ref="postBody" className="editor" placeholder="Write your post here using markdown syntax..." />
-          <input type="checkbox" id="publish" ref="publish" value="publish" /> <label for="publish">Publish</label>
+          <div className="posts live-editor"
+               dangerouslySetInnerHTML={this.rawMarkup()} />
           <div className="action-group">
             <input type="submit" value="Save" onClick={(event) => {this.handlePostSave(event)}} />
             <input type="button" value="Cancel" />

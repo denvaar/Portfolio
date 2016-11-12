@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 import { requestToken, fetchUser } from '../actions/actions';
 
@@ -7,38 +8,56 @@ class Login extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      errorMessage: null
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps, nextState) {
+    this.setState({
+      errorMessage: nextProps.user.errorMessage
+    });
   }
 
   handleClick(event) {
+    event.preventDefault();
     const username = this.refs.username;
     const password = this.refs.password;
     const creds = {
       username: username.value.trim(),
       password: password.value.trim()
     };
-    
-    this.props.requestToken(creds, this.context.router);
-    
-    //console.log(this.props);
-    //dispatch(requestToken(creds));
+
+    if (creds.username.length > 0 && creds.password.length > 0) {   
+      this.props.requestToken(creds, this.context.router)
+    } else {
+      this.setState({
+        errorMessage: "Username and password cannot be blank."
+      });
+    } 
   }
 
   render() {
-    const { errorMessage } = this.props;
+    let { errorMessage, successMessage } = this.state;
     return (
-      <div>
-        <input type='text'
-               ref='username'
-               className="form-control"
-               placeholder='Username' />
-        <input type='password'
-               ref='password'
-               className="form-control"
-               placeholder='Password' />
-        <button onClick={(event) => this.handleClick(event)}
-                className="btn btn-primary">
-          Login
-        </button>
+      <div className="center--200">
+          <div className="form-error">{errorMessage}</div>
+          <div className="form-success">{successMessage}</div>
+          <form>
+          <input type='text'
+                 ref='username'
+                 placeholder='Username' />
+          <input type='password'
+                 ref='password'
+                 placeholder='Password' />
+            <div className="action-group">
+            <input type="submit"
+                   className="stretchy-pants"
+                   value="Login" 
+                   onClick={this.handleClick} />
+          </div>
+        </form> 
       </div>
     );
   }
@@ -46,7 +65,6 @@ class Login extends Component {
 
 Login.propTypes = {
   errorMessage: PropTypes.string,
-  //dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {

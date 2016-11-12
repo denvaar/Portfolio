@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { browserHistory } from 'react-router';
 
 import storage from '../utils/localStorageUtils';
 
@@ -8,6 +9,7 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const BAD_CREDENTIALS = 'BAD_CREDENTIALS';
 export const USER_RETRIEVED = 'USER_RETRIEVED';
 export const POST_CREATED = 'POST_CREATED';
+export const SUCCESS_NOTIFICATION_ADD = 'SUCCESS_NOTIFICATION_ADD';
 
 /*
  @param {Object} props :: {email: email, password: password}
@@ -18,17 +20,14 @@ export const requestToken = (props, router) => {
     return axios.post("http://localhost:8000/api/v1/accounts/sessions", props).then((response) => {
       if (response.status === 201) {
         storage.setKey(response.data.jwt);
-        console.log("success!", storage);
         dispatch(loginSuccess(response));
+        browserHistory.push("/");
+        dispatch(addSuccessNotification("Login Successful!"));
       } else {
         dispatch(loginFailure(response));
       }
     }).catch((error) => {
-      if (error.status === 400) {
-        dispatch(badCredentials(error));
-      } else {
-        dispatch(loginFailure(error));
-      }
+      dispatch(loginFailure(error));
     });
   }
 }
@@ -39,7 +38,6 @@ export const requestToken = (props, router) => {
 export const fetchUser = (token) => {
   return dispatch => {
     const config = {headers: {'Authorization': `JWT ${token}`}};
-    console.log("oh");
     return axios.get("http://localhost:8000/api/v1/accounts/users/retrieve", config).then((response) => {
       let jwt = response.data.jwt;
       dispatch(userRetrieved(response));
@@ -48,17 +46,16 @@ export const fetchUser = (token) => {
 }
 
 export const logout = (router) => {
-  console.log('logging out');
   return (dispatch, getState) => {
     const { user } = getState();
     storage.setKey();
     dispatch(logoutSuccess());
-    //router.push('/');
+    browserHistory.push("/login");
+    dispatch(addSuccessNotification("Logout Successful!"));
   };
 }
 
 export const createPost = (text, token) => {
-  console.log('creating post...');
   return dispatch => {
     const config = {headers: {'Authorization': `JWT ${token}`}};
     return axios.post("http://localhost:8000/api/v1/posts/create/", text, config).then((response) => {
@@ -107,6 +104,13 @@ const badCredentials = (response) => {
   return {
     type: BAD_CREDENTIALS,
     payload: error
+  };
+}
+
+const addSuccessNotification = (message) => {
+  return {
+    type: SUCCESS_NOTIFICATION_ADD,
+    message: message
   };
 }
 

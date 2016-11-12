@@ -8,10 +8,12 @@ import {
   LOGOUT_SUCCESS,
   POST_CREATED,
   USER_RETRIEVED,
+  SUCCESS_NOTIFICATION_ADD,
 } from '../actions/actions';
 
 const INITIAL_STATE = {
-  authenticated: false
+  authenticated: false,
+  errorMessage: ""
 };
 
 const user = (state = INITIAL_STATE, action) => {
@@ -23,7 +25,7 @@ const user = (state = INITIAL_STATE, action) => {
       });
     case LOGIN_FAILURE:
       return Object.assign({}, state, {
-        errorMessage: 'An error occurred trying to log in.'
+        errorMessage: "Nope."
       });
     case BAD_CREDENTIALS:
       return Object.assign({}, state, {
@@ -47,9 +49,22 @@ const post = (state = {}, action) => {
   }
 }
 
+const notification = (state = {}, action) => {
+  switch (action.type) {
+    case SUCCESS_NOTIFICATION_ADD:
+      return Object.assign({}, state, {
+        message: action.message
+      });
+    default:
+      return state;
+  }
+}
+
+
 const rootReducer = combineReducers({
   user,
-  post
+  post,
+  notification,
 });
 
 export default rootReducer;

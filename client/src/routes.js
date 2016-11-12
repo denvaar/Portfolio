@@ -8,6 +8,8 @@ import Post from './components/post';
 import PostCreate from './components/postCreate';
 import Login from './components/login';
 import requireAuth from './components/authentication';
+import NotificationManager from './components/notificationManager';
+
 
 export default (
   <Route path="/" component={Header}>
