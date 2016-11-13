@@ -3,14 +3,15 @@ import { browserHistory } from 'react-router';
 
 import storage from '../utils/localStorageUtils';
 
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const BAD_CREDENTIALS = 'BAD_CREDENTIALS';
-export const USER_RETRIEVED = 'USER_RETRIEVED';
-export const POST_CREATED = 'POST_CREATED';
-export const SUCCESS_NOTIFICATION_ADD = 'SUCCESS_NOTIFICATION_ADD';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const NOTIFICATION_CLEAR = 'NOTIFICATION_CLEAR';
+export const POST_CREATED = 'POST_CREATED';
+export const POST_FAILURE = 'POST_FAILURE';
+export const SUCCESS_NOTIFICATION_ADD = 'SUCCESS_NOTIFICATION_ADD';
+export const USER_RETRIEVED = 'USER_RETRIEVED';
 
 export const clearNotifications = (props) => {
   return dispatch => {
@@ -67,10 +68,11 @@ export const createPost = (text, token) => {
     const config = {headers: {'Authorization': `JWT ${token}`}};
     console.log(config)
     return axios.post("http://localhost:8000/api/v1/posts/create/", text, config).then((response) => {
-      console.log(response);
       dispatch(postCreated(response));
-    }).catch((error) => {
-      console.log(error);
+      browserHistory.push("/posts");
+      dispatch(addSuccessNotification("Post Created!"));
+    }).catch(error => {
+      dispatch(postFailure(error.response.data));
     });
   };
 }
@@ -79,6 +81,13 @@ const postCreated = (response) => {
   return {
     type: POST_CREATED,
     payload: response
+  };
+}
+
+const postFailure = (data) => {
+  return {
+    type: POST_FAILURE,
+    payload: data
   };
 }
 

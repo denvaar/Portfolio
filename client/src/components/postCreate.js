@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import Remarkable from 'remarkable';
 import hljs from 'highlight.js';
+import { BlockPicker } from 'react-color';
 
 import { createPost } from '../actions/actions';
 import storage from '../utils/localStorageUtils';
@@ -14,6 +15,10 @@ class PostCreate extends Component {
     super(props);
     this.state = {};
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentWillUnmount() {
+
   }
 
   handlePostSave(event) {
@@ -33,8 +38,6 @@ class PostCreate extends Component {
       date_created: date
     };
    
-    console.log(data);
-
     this.props.createPost(data, token);
   }
 
@@ -64,12 +67,31 @@ class PostCreate extends Component {
   }
 
   render() {
+    if (this.props.errors) {
+      var errors = Object.keys(this.props.errors).map((f, index) => {
+        return (<div key={index}>{f}: {this.props.errors[f]}</div>)
+      });
+    }
+
     return (
       <div className="posts body-content">
         <form>
+          <div className="form-error">{this.props.errors && errors}</div>
           <input type="text" ref="title" placeholder="Title" />
           <input type="text" ref="date" placeholder="Date" />
           <input type="text" ref="summary" placeholder="Summary" />
+          
+          <div className="swatch--outer">
+            <div className="swatch--inner" style={{background: `${this.state.color}`}} onClick={() => {
+              this.setState({ displayColorPicker: !this.state.displayColorPicker });
+            }}/>
+          </div>
+          
+          
+          {this.state.displayColorPicker && <BlockPicker onChange={(color) => {
+            console.log(color.hex);
+            this.setState({color: color.hex });
+          }} />}
           <input type="checkbox"
                  id="publish"
                  ref="publish"
@@ -91,4 +113,11 @@ class PostCreate extends Component {
   }
 }
 
-export default connect(null, { createPost })(PostCreate);
+const mapStateToProps = (state) => {
+  return {
+    errors: state.post.errors
+  }
+}
+
+export default connect(mapStateToProps, { createPost })(PostCreate);
+

@@ -6,10 +6,11 @@ import {
   LOGIN_FAILURE,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
-  POST_CREATED,
-  USER_RETRIEVED,
-  SUCCESS_NOTIFICATION_ADD,
   NOTIFICATION_CLEAR,
+  POST_CREATED,
+  POST_FAILURE,
+  SUCCESS_NOTIFICATION_ADD,
+  USER_RETRIEVED,
 } from '../actions/actions';
 
 const INITIAL_STATE = {
@@ -44,6 +45,10 @@ const post = (state = {}, action) => {
     case POST_CREATED:
       return Object.assign({}, state, {
         text: action.payload.data.text
+      });
+    case POST_FAILURE:
+      return Object.assign({}, state, {
+        errors: action.payload
       });
     default:
       return state;
