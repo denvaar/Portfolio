@@ -349,7 +349,7 @@ form input[type="submit"]:hover { background: #3fa6ff; }
     to {bottom: 0; opacity: 0;}
 }
 
-div.block-picker { position: absolute !important; z-index: 100; }
+div.chrome-picker { position: absolute !important; z-index: 100; }
 .swatch--inner {
   background: #4CAF50;
   width: 26px;

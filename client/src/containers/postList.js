@@ -34,6 +34,7 @@ class PostList extends Component {
             'title': post.title,
             'summary': post.summary,
             'date': post.date_created,
+            'color': post.color,
             'key': post.id
           });
         });
@@ -59,6 +60,7 @@ class PostList extends Component {
                   title={post.title}
                   date={post.date}
                   slug={post.slug}
+                  color={post.color}
                   summary={post.summary} />
       );
     });

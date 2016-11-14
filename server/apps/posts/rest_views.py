@@ -1,4 +1,9 @@
-from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView
+from rest_framework.generics import (
+    RetrieveAPIView,
+    ListAPIView,
+    CreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .serializers import PostSerializer
@@ -21,3 +26,11 @@ class PostList(ListAPIView):
 class CreatePost(CreateAPIView):
     permission_classes = (IsAuthenticated, )
     serializer_class = PostSerializer
+
+
+class DetailPost(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated, )
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+    lookup_field = 'slug'
+

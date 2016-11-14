@@ -9,10 +9,15 @@ class PostCard extends Component {
   }
 
   render() {
+    console.log(this.props.color) 
+    let styles = {
+      borderLeft: "6px solid " + this.props.color
+    };
+  
     return (
-    <div className="post-card">
+    <div className="post-card" style={styles}>
       {this.props.user.authenticated &&
-        <Link to={"/"}>
+        <Link to={`/posts/${this.props.slug}/edit`}>
           <i className="fa fa-pencil fa-2x" style={{float: "right"}}></i>
         </Link>
       }

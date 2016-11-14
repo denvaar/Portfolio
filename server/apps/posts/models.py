@@ -10,6 +10,8 @@ class Post(models.Model):
     content = models.TextField()
     date_created = models.DateField(default=date.today)
     is_published = models.BooleanField(default=False, blank=True)
+    color = models.CharField(default='#4CAF50', max_length=255,
+                             blank=True, null=True)
     slug = models.SlugField(unique=True)
 
     def __str__(self):
@@ -17,7 +19,6 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            print("##########", self.title)
             self.slug = slugify(self.title)
         super(Post, self).save(*args, **kwargs)
 

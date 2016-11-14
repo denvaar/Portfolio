@@ -17,6 +17,7 @@ export default (
     <Route path="/posts" component={requireAuth(PostList)} />
     <Route path="/posts/create" component={requireAuth(PostCreate)} />
     <Route path="/posts/:slug" component={requireAuth(Post)} />
+    <Route path="/posts/:slug/edit" component={requireAuth(PostCreate)} />
     <Route path="/login" component={Login} />
   </Route>
 );

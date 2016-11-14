@@ -1,41 +1,47 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
-import { connect } from 'react-redux';
-import axios from 'axios';
 import Remarkable from 'remarkable';
+import axios from 'axios';
 import hljs from 'highlight.js';
-import { BlockPicker } from 'react-color';
+import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
 
-import { createPost } from '../actions/actions';
+import ColorPicker from './colorPicker';
 import storage from '../utils/localStorageUtils';
+import { createPost } from '../actions/actions';
+
 
 class PostCreate extends Component {
   
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {};
     this.handleChange = this.handleChange.bind(this);
+    this.handleColorChange = this.handleColorChange.bind(this);
   }
 
-  componentWillUnmount() {
-
+  componentWillMount() {
+    let slug = this.props.params.slug;
+    if (this.props.params.slug) {
+      axios.get(`http://localhost:8000/api/v1/posts/${slug}`).then(
+        response => {
+          console.log(response.data)
+          this.setState(response.data);
+        }
+      );
+    }
   }
 
   handlePostSave(event) {
     event.preventDefault();
-    const text = this.refs.postBody.value;
-    const title = this.refs.title.value;
-    const date = this.refs.date.value;
-    const summary = this.refs.summary.value;
-    const publish = this.refs.publish.value;
-
     let token = storage.get('auth-token');
     let data = {
-      title: title,
-      content: text,
-      summary: summary,
+      title: this.refs.title.value,
+      content: this.refs.postBody.value,
+      summary: this.refs.summary.value,
+      color: this.state.color,
       is_published: true, //publish === "publish" ? true : false
-      date_created: date
+      date_created: this.refs.date.value
     };
    
     this.props.createPost(data, token);
@@ -66,6 +72,10 @@ class PostCreate extends Component {
     });
   }
 
+  handleColorChange(color) {
+    this.setState({color: color.hex });
+  }
+
   render() {
     if (this.props.errors) {
       var errors = Object.keys(this.props.errors).map((f, index) => {
@@ -73,25 +83,23 @@ class PostCreate extends Component {
       });
     }
 
+    let colorPickerProps = {
+      color: this.state.color,
+      handleColorChange: (color) => { this.setState({color: color.hex}) },
+      handleClick: () => { this.setState({ displayColorPicker: !this.state.displayColorPicker }) },
+      showPicker: this.state.displayColorPicker
+    };
+
     return (
       <div className="posts body-content">
         <form>
           <div className="form-error">{this.props.errors && errors}</div>
-          <input type="text" ref="title" placeholder="Title" />
-          <input type="text" ref="date" placeholder="Date" />
-          <input type="text" ref="summary" placeholder="Summary" />
-          
-          <div className="swatch--outer">
-            <div className="swatch--inner" style={{background: `${this.state.color}`}} onClick={() => {
-              this.setState({ displayColorPicker: !this.state.displayColorPicker });
-            }}/>
-          </div>
-          
-          
-          {this.state.displayColorPicker && <BlockPicker onChange={(color) => {
-            console.log(color.hex);
-            this.setState({color: color.hex });
-          }} />}
+          <input type="text" ref="title" placeholder="Title" value={this.state.title} />
+          <input type="text" ref="date" placeholder="Date" value={this.state.date_created} />
+          <input type="text" ref="summary" placeholder="Summary" value={this.state.summary} />
+         
+          <ColorPicker {...colorPickerProps} />
+
           <input type="checkbox"
                  id="publish"
                  ref="publish"
@@ -99,13 +107,17 @@ class PostCreate extends Component {
             <label htmlFor="publish" style={{top: 2+"px", position: "relative"}}>
               &nbsp;Publish <i className="fa fa-newspaper-o"></i>
             </label>
-          <textarea onChange={this.handleChange} ref="postBody" className="editor" placeholder="Write your post here using markdown syntax..." />
+          <textarea onChange={this.handleChange}
+                    ref="postBody"
+                    value={this.state.content}
+                    className="editor"
+                    placeholder="Write your post here using markdown syntax..." />
           <div className="hr-1" />
           <div className="posts live-editor"
                dangerouslySetInnerHTML={this.rawMarkup()} />
           <div className="action-group">
             <input type="submit" value="Save" onClick={(event) => {this.handlePostSave(event)}} />
-            <input type="button" value="Cancel" />
+            <input type="button" value="Cancel" onClick={() => { browserHistory.push("/posts"); }} />
           </div>
         </form>
       </div>
