@@ -9,7 +9,6 @@ const requireAuth = (ComposedComponent) => {
 
     componentWillMount() {
       let token = storage.get('auth-token');
-      console.log(token);
       if (!this.props.authenticated && !token) {
         this.context.router.push('/login');
       }
@@ -41,3 +40,31 @@ const requireAuth = (ComposedComponent) => {
 }
 
 export default requireAuth;
+
+
+
+export const checkAuth = (ComposedComponent) => {
+  class A extends Component {
+    componentWillMount() {
+      let token = storage.get('auth-token');
+      if (!this.props.authenticated && token)
+        this.props.fetchUser(token);
+    }
+    
+    render() {
+      return (
+        <ComposedComponent {...this.props} />
+      );
+    }
+  
+  }
+  
+  const mapStateToProps = (state) => {
+    return {
+      authenticated: state.user.authenticated
+    };
+  }
+
+  return connect(mapStateToProps, { fetchUser })(A);
+}
+

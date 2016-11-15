@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+import apiConfig from '../utils/apiConfig';
 import profilePic from '../img/profilePic.png';
 
 class About extends Component {
@@ -12,7 +13,7 @@ class About extends Component {
   }
 
   componentDidMount() {
-    axios.get("http://localhost:8000/api/v1/about-section/1/").then(
+    axios.get(`${apiConfig}/about-section/1/`).then(
       response => {
         this.setState({
           content: response.data.content

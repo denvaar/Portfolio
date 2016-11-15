@@ -4,6 +4,7 @@ import { Link, browserHistory } from 'react-router';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import axios from 'axios';
 
+import apiConfig from '../utils/apiConfig';
 import PostCard from '../components/postCard';
 import SearchForm from '../components/searchForm';
 
@@ -26,7 +27,7 @@ class PostList extends Component {
 
   getPosts() {
     var posts = [];
-    return axios.get("http://localhost:8000/api/v1/posts/").then(
+    return axios.get(`${apiConfig}/posts/`).then(
       response => {
         response.data.map((post) => {
           posts.push({

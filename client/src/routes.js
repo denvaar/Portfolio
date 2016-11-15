@@ -7,16 +7,16 @@ import PostList from './containers/postList';
 import Post from './components/post';
 import PostCreate from './components/postCreate';
 import Login from './components/login';
-import requireAuth from './components/authentication';
+import requireAuth, { checkAuth } from './components/authentication';
 import NotificationManager from './components/notificationManager';
 
 
 export default (
   <Route path="/" component={Header}>
-    <IndexRoute component={Main} />
-    <Route path="/posts" component={requireAuth(PostList)} />
+    <IndexRoute component={checkAuth(Main)} />
+    <Route path="/posts" component={checkAuth(PostList)} />
     <Route path="/posts/create" component={requireAuth(PostCreate)} />
-    <Route path="/posts/:slug" component={requireAuth(Post)} />
+    <Route path="/posts/:slug" component={checkAuth(Post)} />
     <Route path="/posts/:slug/edit" component={requireAuth(PostCreate)} />
     <Route path="/login" component={Login} />
   </Route>

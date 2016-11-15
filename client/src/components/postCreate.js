@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import ColorPicker from './colorPicker';
 import storage from '../utils/localStorageUtils';
 import { createPost } from '../actions/actions';
+import apiConfig from '../utils/apiConfig';
 
 
 class PostCreate extends Component {
@@ -23,7 +24,7 @@ class PostCreate extends Component {
   componentWillMount() {
     let slug = this.props.params.slug;
     if (this.props.params.slug) {
-      axios.get(`http://localhost:8000/api/v1/posts/${slug}`).then(
+      axios.get(`${apiConfig}/posts/${slug}`).then(
         response => {
           console.log(response.data)
           this.setState(response.data);

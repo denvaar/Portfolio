@@ -2,6 +2,7 @@ import axios from 'axios';
 import { browserHistory } from 'react-router';
 
 import storage from '../utils/localStorageUtils';
+import apiConfig from '../utils/apiConfig';
 
 export const BAD_CREDENTIALS = 'BAD_CREDENTIALS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
@@ -25,7 +26,7 @@ export const clearNotifications = (props) => {
 */
 export const requestToken = (props, router) => {
   return (dispatch, getState) => {
-    return axios.post("http://localhost:8000/api/v1/accounts/sessions", props).then((response) => {
+    return axios.post(`${apiConfig}/accounts/sessions`, props).then((response) => {
       if (response.status === 201) {
         storage.setKey(response.data.jwt);
         dispatch(loginSuccess(response));
@@ -46,7 +47,7 @@ export const requestToken = (props, router) => {
 export const fetchUser = (token) => {
   return dispatch => {
     const config = {headers: {'Authorization': `JWT ${token}`}};
-    return axios.get("http://localhost:8000/api/v1/accounts/users/retrieve", config).then((response) => {
+    return axios.get(`${apiConfig}/accounts/users/retrieve`, config).then((response) => {
       let jwt = response.data.jwt;
       dispatch(userRetrieved(response));
     });
@@ -67,7 +68,7 @@ export const createPost = (text, token) => {
   return dispatch => {
     const config = {headers: {'Authorization': `JWT ${token}`}};
     console.log(config)
-    return axios.post("http://localhost:8000/api/v1/posts/create/", text, config).then((response) => {
+    return axios.post(`${apiConfig}/posts/create/`, text, config).then((response) => {
       dispatch(postCreated(response));
       browserHistory.push("/posts");
       dispatch(addSuccessNotification("Post Created!"));

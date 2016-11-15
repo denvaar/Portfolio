@@ -5,6 +5,7 @@ import axios from 'axios';
 import Remarkable from 'remarkable';
 import hljs from 'highlight.js';
 
+import apiConfig from '../utils/apiConfig';
 
 class Post extends Component {
   
@@ -15,7 +16,7 @@ class Post extends Component {
 
   componentWillMount() {
     var slug = this.props.params.slug;
-    axios.get(`http://localhost:8000/api/v1/posts/${slug}`).then(
+    axios.get(`${apiConfig}/posts/${slug}`).then(
       response => {
         this.setState(response.data);
       }

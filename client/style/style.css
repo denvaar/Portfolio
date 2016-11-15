@@ -132,7 +132,7 @@ a:hover, a:active, a:hover > i {
     }
 
 .search {
-  float: right;
+  text-align: right;
   margin-right: 3px;
 }
 .search input {
@@ -202,6 +202,7 @@ margin-left: -50px;
   -webkit-appearance: none;
 }
 .post-create {
+  float: left;
   cursor: pointer;
   height: 29px;
   width: 100px;
