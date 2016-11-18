@@ -9,8 +9,7 @@ class Main extends Component {
     return (
       <div>
         <About />
-        <br/>
-        <p className='body-content'>- - - other sections will go here - - -</p>
+      
       </div>
     );
   }

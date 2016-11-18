@@ -41,10 +41,10 @@ class Login extends Component {
   render() {
     let { errorMessage, successMessage } = this.state;
     return (
-      <div className="center--200">
-          <div className="form-error">{errorMessage}</div>
+      <div className="body-content center--200">
           <div className="form-success">{successMessage}</div>
           <form>
+          <div className="form-error">{errorMessage}</div>
           <input type='text'
                  ref='username'
                  placeholder='Username' />

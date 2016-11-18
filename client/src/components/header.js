@@ -33,9 +33,6 @@ class Header extends Component {
              </button>}
             </span>
         </nav>
-        <div className="banner-image">
-          <img src={BannerImg}></img>
-        </div>
         {this.props.children}
         <NotificationManager />
       </div>
