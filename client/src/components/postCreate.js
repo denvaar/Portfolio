@@ -4,10 +4,12 @@ import axios from 'axios';
 import hljs from 'highlight.js';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
+import Modal from './modal';
 import ColorPicker from './colorPicker';
 import storage from '../utils/localStorageUtils';
-import { createPost } from '../actions/actions';
+import { createPost, editPost, deletePost } from '../actions/actions';
 import apiConfig from '../utils/apiConfig';
 
 
@@ -15,22 +17,26 @@ class PostCreate extends Component {
   
   constructor(props) {
     super(props);
-    console.log(props);
-    this.state = {};
+    this.state = {showModal: false};
     this.handleChange = this.handleChange.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
+    this.handlePostDelete = this.handlePostDelete.bind(this);
   }
 
   componentWillMount() {
+    console.log("now");
     let slug = this.props.params.slug;
     if (this.props.params.slug) {
       axios.get(`${apiConfig}/posts/${slug}`).then(
         response => {
-          console.log(response.data)
           this.setState(response.data);
         }
       );
     }
+  }
+
+  componentWillUnmount() {
+    if (this.props.errors) this.props.errors = undefined;
   }
 
   handlePostSave(event) {
@@ -45,7 +51,18 @@ class PostCreate extends Component {
       date_created: this.refs.date.value
     };
    
-    this.props.createPost(data, token);
+    if (this.props.location.pathname.indexOf("/edit") !== -1) {
+      this.props.editPost(data, this.props.params.slug, token);
+    } else {
+      this.props.createPost(data, token);
+    }
+  }
+
+  handlePostDelete(event) {
+    event.preventDefault();
+
+    let token = storage.get('auth-token');
+    this.props.deletePost(this.props.params.slug, token);
   }
 
   rawMarkup() {
@@ -90,14 +107,27 @@ class PostCreate extends Component {
       handleClick: () => { this.setState({ displayColorPicker: !this.state.displayColorPicker }) },
       showPicker: this.state.displayColorPicker
     };
-
+    let slug = this.props.params.slug;
+     
     return (
       <div className="posts body-content">
+        
+        {slug && this.state.showModal && <Modal text={`Are you sure you want to delete '${slug}' ?`}
+                                     callback={this.handlePostDelete}
+                                     cancel={() => {
+                                       this.setState({
+                                         showModal: !this.state.showModal 
+                                       });}
+                                     } />
+        }
+        {slug && <button onClick={() => { this.setState({ showModal: true }); }}
+                         className="delete-btn"><i className="fa fa-trash-o fa-2x"></i></button>}
+        
         <form>
           <div className="form-error">{this.props.errors && errors}</div>
-          <input type="text" ref="title" placeholder="Title" value={this.state.title} />
-          <input type="text" ref="date" placeholder="Date" value={this.state.date_created} />
-          <input type="text" ref="summary" placeholder="Summary" value={this.state.summary} />
+          <input type="text" ref="title" placeholder="Title" onChange={(e) => { this.setState({title: e.target.value});}} value={this.state.title}  />
+          <input type="text" ref="date" placeholder="Date" onChange={(e) => { this.setState({date_created: e.target.value});}} value={slug ? this.state.date_created : moment().format("YYYY-MM-DD")} />
+          <input type="text" ref="summary" placeholder="Summary" onChange={(e) => { this.setState({summary: e.target.value});}} value={this.state.summary} />
          
           <ColorPicker {...colorPickerProps} />
 
@@ -132,5 +162,5 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { createPost })(PostCreate);
+export default connect(mapStateToProps, { createPost, editPost, deletePost })(PostCreate);
 

@@ -8,6 +8,8 @@ import {
   LOGOUT_SUCCESS,
   NOTIFICATION_CLEAR,
   POST_CREATED,
+  POST_DELETED,
+  POST_UPDATED,
   POST_FAILURE,
   SUCCESS_NOTIFICATION_ADD,
   USER_RETRIEVED,
@@ -43,6 +45,8 @@ const user = (state = INITIAL_STATE, action) => {
 const post = (state = {}, action) => {
   switch (action.type) {
     case POST_CREATED:
+    case POST_DELETED:
+    case POST_UPDATED:
       return Object.assign({}, state, {
         text: action.payload.data.text
       });

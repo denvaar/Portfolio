@@ -10,6 +10,8 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const NOTIFICATION_CLEAR = 'NOTIFICATION_CLEAR';
 export const POST_CREATED = 'POST_CREATED';
+export const POST_UPDATED = 'POST_UPDATED';
+export const POST_DELETED = 'POST_DELETED';
 export const POST_FAILURE = 'POST_FAILURE';
 export const SUCCESS_NOTIFICATION_ADD = 'SUCCESS_NOTIFICATION_ADD';
 export const USER_RETRIEVED = 'USER_RETRIEVED';
@@ -67,7 +69,6 @@ export const logout = (router) => {
 export const createPost = (text, token) => {
   return dispatch => {
     const config = {headers: {'Authorization': `JWT ${token}`}};
-    console.log(config)
     return axios.post(`${apiConfig}/posts/create/`, text, config).then((response) => {
       dispatch(postCreated(response));
       browserHistory.push("/posts");
@@ -78,9 +79,49 @@ export const createPost = (text, token) => {
   };
 }
 
+export const editPost = (text, slug, token) => {
+  return dispatch => {
+    const config = {headers: {'Authorization': `JWT ${token}`}};
+    return axios.patch(`${apiConfig}/posts/${slug}/edit/`, text, config).then((response) => {
+      dispatch(postUpdated(response));
+      browserHistory.push("/posts");
+      dispatch(addSuccessNotification("Post Updated!"));
+    }).catch(error => {
+      dispatch(postFailure(error.response.data));
+    });
+  };
+}
+
+export const deletePost = (slug, token) => {
+  return dispatch => {
+    const config = {headers: {'Authorization': `JWT ${token}`}};
+    return axios.delete(`${apiConfig}/posts/${slug}/edit/`, config).then((response) => {
+      dispatch(postDeleted(response));
+      browserHistory.push("/posts");
+      dispatch(addSuccessNotification("Post Deleted!"));
+    }).catch(error => {
+      dispatch(postFailure(error.response.data));
+    });
+  };
+}
+
 const postCreated = (response) => {
   return {
     type: POST_CREATED,
+    payload: response
+  };
+}
+
+const postDeleted = (response) => {
+  return {
+    type: POST_DELETED,
+    payload: response
+  };
+}
+
+const postUpdated = (response) => {
+  return {
+    type: POST_UPDATED,
     payload: response
   };
 }

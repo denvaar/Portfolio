@@ -48,12 +48,8 @@ class Post extends Component {
         <Link to="/posts">← Back</Link>
         <h1>{this.state.title}</h1>
         <p className="italic-text">{this.state.date_created}</p>
-        <hr className="hr1" />
+        <hr className="hr1" style={{color: this.state.color}}/>
         <div dangerouslySetInnerHTML={this.rawMarkup()} />
-        <br />
-        <br />
-        <br />
-        <br />
       </div>
     );
   }

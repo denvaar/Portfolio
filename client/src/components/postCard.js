@@ -9,7 +9,6 @@ class PostCard extends Component {
   }
 
   render() {
-    console.log(this.props.color) 
     let styles = {
       borderLeft: "6px solid " + this.props.color
     };

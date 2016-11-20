@@ -32,7 +32,7 @@ code {
   }
 
 .hr1 { 
-  border: 1px solid #4CAF50;
+  border: 3px solid;
 }
 
 .italic-text { 
@@ -56,15 +56,23 @@ a:hover, a:active, a:hover > i {
 
 
 .profile-pic {
-  float: right;
+  display: block;
   width: 25%;
   border-radius: 50%;
-  margin: 15px;
+  margin: 0 auto;
 }
+
+
+.github i { color: black; padding-left: 2px; }
+.linkedin i { color: #0077b5; padding-left: 2px; }
+.stack-overflow i { color: #f48024; padding-left: 2px; }
+.instagram i { color: #fa8762; padding-left: 2px; }
+.envelope i { color: #545454; padding-left: 2px; }
 
 
 
 .top-nav {
+  z-index: 100;
   background: rgba(255,255,255, 0.9);
   position: fixed;
   width: 100%;
@@ -89,6 +97,13 @@ a:hover, a:active, a:hover > i {
 .body-content {
   margin: 0 auto;
   width: 700px;
+  padding-top: 100px;
+}
+
+
+.skinny {
+  width: 450px;
+  margin: 0 auto;
 }
 
 .post-list-container {
@@ -164,6 +179,21 @@ margin-left: -50px;
   background: #0075d9;
 }
 
+
+.delete-btn {
+  background: #d65349;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+  height: 35px;
+  width: 50px;
+  border: none;
+  font-size: 14px;
+  border-radius: 3px;
+  -webkit-appearance: none;
+  float: right;
+}
+
 .example-enter {
   opacity: 0.01;
 }
@@ -226,20 +256,35 @@ margin-left: -50px;
   height: 150px;
 }
 
+.center { text-align: center; }
+
+
 .form-error {
   color: #bd3b31;
 }
 .form-success { color: #4CAF50; }
 
 .center--200 {
+  box-shadow: 0 1px 10px #ddd;
   text-align: center;
   margin: 0 auto;
   width: 200px;
-  margin-top: 100px;
   border: 1px solid #ddd;
   padding: 20px;
   border-radius: 3px;
   background: #ffffff;
+  height: 180px;
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+.center--200 form {
+  margin-top: auto;
 }
 
 .stretchy-pants { 
@@ -370,3 +415,45 @@ div.chrome-picker { position: absolute !important; z-index: 100; }
   border-radius: 3px;
   background: #fff;
 }
+
+
+.modal {
+    font-family: 'Avenir Next', sans-serif;
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content button {
+  cursor: pointer;
+  margin-top: 10px;
+  height: 35px;
+  width: 100px;
+  background: #607d8b;
+  color: #dadada;
+  border: none;
+  font-size: 14px;
+  border-radius: 3px;
+  -webkit-appearance: none;
+  margin-left: 5px;
+  margin-right: 5px;
+
+}
+
+/* Modal Content/Box */
+.modal-content {
+    box-shadow: 0 6px 20px #515151;
+    border-radius: 3px;
+    text-align: center;
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    width: 60%; /* Could be more or less, depending on screen size */
+}
+

@@ -71,7 +71,6 @@ class PostList extends Component {
     var firstColumn = postCards.slice(0, m);
     var secondColumn = postCards.slice(m, n);
     var thirdColumn = postCards.slice(n, postCards.length);
-    console.log(this.props.user)
     return (
       <div className="body-content">
         <h2>Posts</h2>
