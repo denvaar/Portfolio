@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Link, IndexLink } from 'react-router';
 
 import { requestToken, logout } from '../actions/actions';
-import BannerImg from '../img/mountains.jpg';
+//import BannerImg from '../img/mountains.jpg';
 import NotificationManager from './notificationManager';
 
 class Header extends Component {

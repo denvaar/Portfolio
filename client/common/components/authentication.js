@@ -2,18 +2,27 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { fetchUser } from '../actions/actions';
-import storage from '../utils/localStorageUtils';
+
+const isBrowser = typeof window !== 'undefined';
+if (isBrowser) {
+  var storage = require('../utils/localStorageUtils');
+} else {
+  var storage = undefined;
+}
 
 const requireAuth = (ComposedComponent) => {
   class Authentication extends Component {
 
     componentWillMount() {
-      let token = storage.get('auth-token');
-      if (!this.props.authenticated && !token) {
-        this.context.router.push('/login');
-      }
-      else if (!this.props.authenticated && token) {
-        this.props.fetchUser(token);
+      if (storage) {
+        console.log(storage);
+        let token = storage.default.get('auth-token');
+        if (!this.props.authenticated && !token) {
+          this.context.router.push('/login');
+        }
+        else if (!this.props.authenticated && token) {
+          this.props.fetchUser(token);
+        }
       }
     }
     
@@ -46,9 +55,11 @@ export default requireAuth;
 export const checkAuth = (ComposedComponent) => {
   class A extends Component {
     componentWillMount() {
-      let token = storage.get('auth-token');
-      if (!this.props.authenticated && token)
-        this.props.fetchUser(token);
+      if (storage) {
+        let token = storage.default.get('auth-token');
+        if (!this.props.authenticated && token)
+          this.props.fetchUser(token);
+      }
     }
     
     render() {

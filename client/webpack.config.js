@@ -1,16 +1,24 @@
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = { 
-  entry: './src/index.js',
+  //entry: './src/index.js',
+  entry: [
+    'webpack-hot-middleware/client',
+    './client/index.js'
+  ],
   output: {
+    path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/static/'
   },  
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
-  /*plugins: [
-    new webpack.DefinePlugin({
+  plugins: [
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin()
+    /*new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
       }
@@ -19,29 +27,24 @@ module.exports = {
       compress: {
         warnings: false
       }
-    })
-  ],*/
+    })*/
+  ],
   module: {
-    loaders: [
-      {   
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loaders: ['babel-loader'] 
-      },  
+   loaders: [
       {
-        test: /\.(png|jpg|gif|ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        test: /\.js$/,
+        loader: 'babel',
         exclude: /node_modules/,
-        loader: 'file-loader'
+        include: __dirname,
+        query: {
+          presets: [ 'react-hmre' ]
+        }
       },
       {   
         test: /\.css$/,
         loader: 'style-loader!css-loader' 
-      },
-      {
-        test: /\.json$/,
-        loader: 'json'
       }
-    ]
+    ] 
   }
 };
 

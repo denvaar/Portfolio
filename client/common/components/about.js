@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import apiConfig from '../utils/apiConfig';
-import profilePic from '../img/profilePic.png';
+//import profilePic from '../img/profilePic.png';
 
 class About extends Component {
   
@@ -23,9 +23,9 @@ class About extends Component {
   }
 
   render() {
+    //<img className="profile-pic" src={profilePic}></img>
     return (
       <div className="body-content">
-        <img className="profile-pic" src={profilePic}></img>
         <div className="skinny" dangerouslySetInnerHTML={{__html: this.state.content}} />
         
         <h2 className="center">Projects</h2>

@@ -1,8 +1,6 @@
-import React, { Component, PropTypes } from 'react';
-import { createStore } from 'redux';
+import React, { Component } from 'react';
 
 import About from '../components/about';
-//import reducer from '../reducers/reducer';
 
 class Main extends Component {
   render() {

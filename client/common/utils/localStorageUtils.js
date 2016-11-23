@@ -1,6 +1,5 @@
-
 const util = {
-  store: window.localStorage,
+  store: typeof window === 'undefined' ? undefined : window.localStorage,
   key: 'auth-token',
   get(key) {
     return this.store.getItem(this.key);
