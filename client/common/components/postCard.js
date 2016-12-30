@@ -17,7 +17,7 @@ class PostCard extends Component {
     <div className="post-card" style={styles}>
       {this.props.user.authenticated &&
         <Link to={`/posts/${this.props.slug}/edit`}>
-          <i className="fa fa-pencil fa-2x" style={{float: "right"}}></i>
+          e<i className="fa fa-pencil fa-2x" style={{float: "right"}}></i>
         </Link>
       }
       <h3><Link to={`/posts/${this.props.slug}`}>{this.props.title}</Link></h3>
