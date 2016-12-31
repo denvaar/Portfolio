@@ -47,8 +47,10 @@ export const checkAuth = (ComposedComponent) => {
   class A extends Component {
     componentWillMount() {
       let token = storage.get('auth-token');
-      if (!this.props.authenticated && token)
+      if (!this.props.authenticated && token) {
+        console.log('--', token)
         this.props.fetchUser(token);
+      }
     }
     
     render() {

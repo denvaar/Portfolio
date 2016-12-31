@@ -44,12 +44,28 @@ class Post extends Component {
   
   render() {
     return (
-      <div className="posts body-content">
-        <Link to="/posts">← Back</Link>
-        <h1>{this.state.title}</h1>
-        <p className="italic-text">{this.state.date_created}</p>
-        <hr className="hr1" style={{color: this.state.color}}/>
-        <div dangerouslySetInnerHTML={this.rawMarkup()} />
+      <div>
+        <div className="push--top" />
+        <div className="post post-content">
+          <div className="post-nav-container">
+            <Link to="/posts">
+              <i className="fa fa-list"></i>
+              <span className="post-nav">All posts</span>
+            </Link>
+            <Link to="/posts">
+              <i className="fa fa-file-o"></i>
+              <span className="post-nav">Previous</span>
+            </Link>
+            <Link to="/posts">
+              <i className="fa fa-file-o"></i>
+              <span className="post-nav">Next</span>
+            </Link>
+          </div>
+          <h1>{this.state.title}</h1>
+          <p className="italic-text">{this.state.date_created}</p>
+          <hr className="hr1" style={{color: this.state.color}}/>
+          <div dangerouslySetInnerHTML={this.rawMarkup()} />
+        </div>
       </div>
     );
   }

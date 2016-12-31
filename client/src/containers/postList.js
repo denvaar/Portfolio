@@ -12,7 +12,7 @@ class PostList extends Component {
   
   constructor(props) {
     super(props);
-    this.state = {posts: [], filterPosts: []};
+    this.state = {posts: [], filterPosts: [], fetched: false};
     this.onSearch = this.onSearch.bind(this);
     this.handlePostCreate = this.handlePostCreate.bind(this);
   }
@@ -41,7 +41,8 @@ class PostList extends Component {
         });
         this.setState({
           posts: posts,
-          filterPosts: posts
+          filterPosts: posts,
+          fetched: true
         });
       }
     );
@@ -72,17 +73,26 @@ class PostList extends Component {
     var secondColumn = postCards.slice(m, n);
     var thirdColumn = postCards.slice(n, postCards.length);
     return (
-      <div className="body-content">
+      <div className="post-container">
+        <div className="push--top" />
         <h2>Posts</h2>
+        
         {this.props.user.authenticated &&
           <button className="post-create"
                   onClick={this.handlePostCreate}>
             New Post
           </button>
         }
+        
         <SearchForm onSearch={this.onSearch} />
         <div className="hr-1" />
-        <div className="post-list-container">
+        <div className={this.state.fetched ? "post-list-container" : "loading-container"}>
+          {!this.state.fetched &&
+            <div className="loading-display">
+              <i className="fa fa-snowflake-o fa-3x fa-spin"></i>
+              <p>Loading...</p>
+            </div>
+          }
           <div className="column">
             <ReactCSSTransitionGroup
               transitionName="example"

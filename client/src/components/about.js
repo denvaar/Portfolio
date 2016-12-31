@@ -5,6 +5,7 @@ import axios from 'axios';
 import apiConfig from '../utils/apiConfig';
 import profilePic from '../img/profilePic.png';
 
+
 class About extends Component {
   
   constructor(props) {
@@ -25,9 +26,11 @@ class About extends Component {
   render() {
     return (
       <div className="body-content">
+        <div className="push--top" />
         <img className="profile-pic" src={profilePic}></img>
-        <div className="skinny" dangerouslySetInnerHTML={{__html: this.state.content}} />
-        
+        <div dangerouslySetInnerHTML={{__html: this.state.content}} />
+       
+        {/* 
         <h2 className="center">Projects</h2>
         
         <div className="container-project skinny">
@@ -67,7 +70,7 @@ class About extends Component {
           &nbsp;for Capital One Financial Corporation. Direct link <a href="https://www.mindsumo.com/solutions/93928">here</a>.</p>
           <h5><u>Tools &amp; Technologies:</u><br/>Python, Pandas, NumPy</h5>
         </div>
-       
+        */}
       </div>
     );
   }

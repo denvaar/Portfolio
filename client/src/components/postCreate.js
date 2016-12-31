@@ -110,8 +110,8 @@ class PostCreate extends Component {
     let slug = this.props.params.slug;
      
     return (
-      <div className="posts body-content">
-        
+      <div className="body-content">
+        <div className="push--top" /> 
         {slug && this.state.showModal && <Modal text={`Are you sure you want to delete '${slug}' ?`}
                                      callback={this.handlePostDelete}
                                      cancel={() => {
@@ -144,7 +144,7 @@ class PostCreate extends Component {
                     className="editor"
                     placeholder="Write your post here using markdown syntax..." />
           <div className="hr-1" />
-          <div className="posts live-editor"
+          <div className="live-editor"
                dangerouslySetInnerHTML={this.rawMarkup()} />
           <div className="action-group">
             <input type="submit" value="Save" onClick={(event) => {this.handlePostSave(event)}} />
