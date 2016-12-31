@@ -24,7 +24,6 @@ class PostCreate extends Component {
   }
 
   componentWillMount() {
-    console.log("now");
     let slug = this.props.params.slug;
     if (this.props.params.slug) {
       axios.get(`${apiConfig}/posts/${slug}`).then(
@@ -50,7 +49,6 @@ class PostCreate extends Component {
       is_published: true, //publish === "publish" ? true : false
       date_created: this.refs.date.value
     };
-   
     if (this.props.location.pathname.indexOf("/edit") !== -1) {
       this.props.editPost(data, this.props.params.slug, token);
     } else {

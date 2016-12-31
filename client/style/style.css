@@ -20,7 +20,7 @@ code {
   font-family: 'Consolas', monospace;
   font-style: italic;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .profile-pic {
@@ -204,7 +204,9 @@ code {
   padding-right: 10px;
 }
 
-form > input[type="text"], form > input[type="password"] {
+form > input[type="text"],
+form > input[type="password"],
+.body-content > input[type="text"] {
   padding-left: 7px;
   height: 25px;
   border-radius: 4px;
@@ -215,11 +217,11 @@ form > input[type="text"], form > input[type="password"] {
   margin-top: 10px;
 }
 
-form > input[type="checkbox"] {
+.body-content > input[type="checkbox"] {
   margin-top: 10px;
 }
 
-form > textarea {
+.body-content > textarea {
   padding-left: 7px;
   margin-top: 10px;
   width: calc(100% - 7px);
@@ -314,6 +316,10 @@ form input[type="submit"]:hover { background: #3fa6ff; }
 /* computerz, etc. */
 
 @media only screen and (min-width: 650px) {
+  code {
+    font-size: 14px;
+  }
+
   .body-content {
     width: 480px;
   }

@@ -66,29 +66,17 @@ export const logout = (router) => {
   };
 }
 
-export const createPost = (text, token) => {
+export const createPost = () => {
   return dispatch => {
-    const config = {headers: {'Authorization': `JWT ${token}`}};
-    return axios.post(`${apiConfig}/posts/create/`, text, config).then((response) => {
-      dispatch(postCreated(response));
-      browserHistory.push("/posts");
-      dispatch(addSuccessNotification("Post Created!"));
-    }).catch(error => {
-      dispatch(postFailure(error.response.data));
-    });
+    browserHistory.push("/posts");
+    dispatch(addSuccessNotification("Post Created!"));
   };
 }
 
-export const editPost = (text, slug, token) => {
+export const editPost = () => {
   return dispatch => {
-    const config = {headers: {'Authorization': `JWT ${token}`}};
-    return axios.patch(`${apiConfig}/posts/${slug}/edit/`, text, config).then((response) => {
-      dispatch(postUpdated(response));
-      browserHistory.push("/posts");
-      dispatch(addSuccessNotification("Post Updated!"));
-    }).catch(error => {
-      dispatch(postFailure(error.response.data));
-    });
+    browserHistory.push("/posts");
+    dispatch(addSuccessNotification("Post Updated!"));
   };
 }
 
