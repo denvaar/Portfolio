@@ -14,6 +14,9 @@ class Post(models.Model):
                              blank=True, null=True)
     slug = models.SlugField(unique=True)
 
+    class Meta:
+        ordering = ('-date_created',)
+
     def __str__(self):
         return '[{}] {}...'.format(self.title, self.content[:15])
 

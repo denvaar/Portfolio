@@ -26,7 +26,7 @@ class PostList extends Component {
   }
 
   getPosts() {
-    var posts = [];
+    let posts = [];
     return axios.get(`${apiConfig}/posts/`).then(
       response => {
         response.data.map((post) => {
@@ -36,6 +36,7 @@ class PostList extends Component {
             'summary': post.summary,
             'date': post.date_created,
             'color': post.color,
+            'published': post.is_published,
             'key': post.id
           });
         });
@@ -56,11 +57,16 @@ class PostList extends Component {
   }
 
   render() {
-    var postCards = this.state.filterPosts.map((post) => {
+    let posts = this.state.filterPosts;
+    if (!this.props.user.authenticated) {
+      posts = posts.filter(obj => obj.published);
+    }
+    var postCards = posts.map((post) => {
       return (
         <PostCard key={post.key}
                   title={post.title}
                   date={post.date}
+                  published={post.published}
                   slug={post.slug}
                   color={post.color}
                   summary={post.summary} />

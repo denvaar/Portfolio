@@ -227,7 +227,7 @@ form > input[type="password"],
   width: calc(100% - 7px);
 }
 
-form input[type="submit"] {
+.submit-button {
   cursor: pointer;
   margin-top: 10px;
   height: 35px;
@@ -241,7 +241,7 @@ form input[type="submit"] {
   border-radius: 3px;
   -webkit-appearance: none;
 }
-form input[type="button"] {
+.form-button {
   cursor: pointer;
   margin-top: 10px;
   height: 35px;
@@ -255,8 +255,23 @@ form input[type="button"] {
   -webkit-appearance: none;
 }
 
-form input[type="button"]:hover { background: #757575; }
-form input[type="submit"]:hover { background: #3fa6ff; }
+.form-button:hover { background: #757575; }
+.submit-button:hover { background: #3fa6ff; }
+
+.delete-btn {
+  background: #d65349;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+  height: 35px;
+  /*width: 50px;*/
+  width: 100%;
+  border: none;
+  font-size: 14px;
+  border-radius: 3px;
+  -webkit-appearance: none;
+  float: right;
+}
 
 .live-editor {
   max-height: 265px;
@@ -304,10 +319,14 @@ form input[type="submit"]:hover { background: #3fa6ff; }
     font-size: 14px;
   }
 
-  form input[type="button"], form input[type="submit"] {
+  .submit-button, .form-button {
     width: 100px;
   }
   
+  .delete-btn {
+    width: 50px;
+  }
+
   .live-editor {
     font-size: 14px;
   }
@@ -456,19 +475,6 @@ a:hover, a:active, a:hover > i {
 
 
 
-.delete-btn {
-  background: #d65349;
-  color: #fff;
-  cursor: pointer;
-  margin-top: 10px;
-  height: 35px;
-  width: 50px;
-  border: none;
-  font-size: 14px;
-  border-radius: 3px;
-  -webkit-appearance: none;
-  float: right;
-}
 
 .example-enter {
   opacity: 0.01;

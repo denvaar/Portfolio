@@ -52,14 +52,14 @@ class Post extends Component {
               <i className="fa fa-list"></i>
               <span className="post-nav">All posts</span>
             </Link>
-            <Link to="/posts">
+            {/*<Link to="/posts">
               <i className="fa fa-file-o"></i>
               <span className="post-nav">Previous</span>
             </Link>
             <Link to="/posts">
               <i className="fa fa-file-o"></i>
               <span className="post-nav">Next</span>
-            </Link>
+            </Link>*/}
           </div>
           <h1>{this.state.title}</h1>
           <p className="italic-text">{this.state.date_created}</p>

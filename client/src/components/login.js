@@ -44,19 +44,19 @@ class Login extends Component {
       <div className="body-content center--200">
           <div className="form-success">{successMessage}</div>
           <form>
-          <div className="form-error">{errorMessage}</div>
-          <input type='text'
-                 ref='username'
-                 placeholder='Username' />
-          <input type='password'
-                 ref='password'
-                 placeholder='Password' />
-            <div className="action-group">
-            <input type="submit"
-                   className="stretchy-pants"
-                   value="Login" 
-                   onClick={this.handleClick} />
-          </div>
+            <div className="form-error">{errorMessage}</div>
+            <input type='text'
+                   ref='username'
+                   placeholder='Username' />
+            <input type='password'
+                   ref='password'
+                   placeholder='Password' />
+              <div className="action-group">
+              <input type="submit"
+                     className="submit-button stretchy-pants"
+                     value="Login" 
+                     onClick={this.handleClick} />
+            </div>
         </form> 
       </div>
     );

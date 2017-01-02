@@ -10,7 +10,8 @@ class PostCard extends Component {
 
   render() {
     let styles = {
-      borderLeft: "6px solid " + this.props.color
+      borderLeft: "6px solid " + this.props.color,
+      backgroundImage: this.props.published ? null : "linear-gradient(-45deg, #fff7b3 25%, rgb(255, 251, 219) 25%, rgb(255, 253, 236) 50%, #fff7b3 50%, #fff7b3 75%, #fffce5 75%, #fffce3)"
     };
   
     return (
@@ -20,7 +21,7 @@ class PostCard extends Component {
           <i className="fa fa-pencil fa-2x" style={{float: "right"}}></i>
         </Link>
       }
-      <h3><Link to={`/posts/${this.props.slug}`}>{this.props.title}</Link></h3>
+      <h3><Link to={`/posts/${this.props.slug}`}>{this.props.user.authenticated && !this.props.published ? this.props.title + " (DRAFT)" : this.props.title}</Link></h3>
       <div className="date">{this.props.date}</div>
       <p>{this.props.summary}</p>
     </div>

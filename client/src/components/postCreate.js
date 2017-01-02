@@ -1,59 +1,103 @@
-import React, { Component, PropTypes } from 'react';
+import ColorPicker from './colorPicker';
+import React, { Component } from 'react';
 import Remarkable from 'remarkable';
-import axios from 'axios';
+import apiConfig from '../utils/apiConfig';
 import hljs from 'highlight.js';
+import moment from 'moment';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import moment from 'moment';
-
-import Modal from './modal';
-import ColorPicker from './colorPicker';
-import storage from '../utils/localStorageUtils';
 import { createPost, editPost, deletePost } from '../actions/actions';
-import apiConfig from '../utils/apiConfig';
+import storage from '../utils/localStorageUtils';
+import axios from 'axios';
+import Modal from './modal';
 
 
 class PostCreate extends Component {
-  
+ 
   constructor(props) {
     super(props);
-    this.state = {showModal: false};
-    this.handleChange = this.handleChange.bind(this);
-    this.handleColorChange = this.handleColorChange.bind(this);
-    this.handlePostDelete = this.handlePostDelete.bind(this);
+    this.state = {
+      content: '',
+      errors: '',
+      color: undefined
+    };
+    this.rawMarkup = this.rawMarkup.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handlePostDelete = this.handlePostDelete.bind(this);  
   }
 
   componentWillMount() {
-    let slug = this.props.params.slug;
     if (this.props.params.slug) {
-      axios.get(`${apiConfig}/posts/${slug}`).then(
-        response => {
-          this.setState(response.data);
-        }
-      );
+      axios.get(`${apiConfig}/posts/${this.props.params.slug}`).then(response => {
+        console.log(response.data)
+        this.refs.title.value = response.data.title;
+        this.refs.date.value = response.data.date_created;
+        this.refs.summary.value = response.data.summary;
+        this.refs.postBody.value = response.data.content;
+        this.refs.publish.checked = response.data.is_published;
+        this.setState({color: response.data.color, content: response.data.content });
+      });
     }
   }
 
-  componentWillUnmount() {
-    if (this.props.errors) this.props.errors = undefined;
-  }
-
-  handlePostSave(event) {
-    event.preventDefault();
-    let token = storage.get('auth-token');
-    let data = {
+  handleSave() {
+    const data = {
       title: this.refs.title.value,
       content: this.refs.postBody.value,
       summary: this.refs.summary.value,
+      date_created: this.refs.date.value,
       color: this.state.color,
-      is_published: true, //publish === "publish" ? true : false
-      date_created: this.refs.date.value
+      is_published: this.refs.publish.checked,
     };
-    if (this.props.location.pathname.indexOf("/edit") !== -1) {
-      this.props.editPost(data, this.props.params.slug, token);
+    const token = storage.get('auth-token');
+    if (this.props.params.slug) {
+      this.editPost(data, token);
     } else {
-      this.props.createPost(data, token);
+      this.createPost(data, token);
     }
+  }
+
+  editPost(data, token) {
+    const config = {headers: {'Authorization': `JWT ${token}`}};
+    axios.patch(`${apiConfig}/posts/${this.props.params.slug}/edit/`, data, config).then(response => {
+      this.props.editPost();
+    }).catch(error => {
+      if (error.response.status != 500) {
+        this.setState({errors: error.response.data})
+      } else {
+        this.setState({errors: {"": "Internal Server Error"}});
+      }
+    });
+  }
+
+  createPost(data, token) {
+    const config = {headers: {'Authorization': `JWT ${token}`}};
+    axios.post(`${apiConfig}/posts/create/`, data, config).then(response => {
+      this.props.createPost();
+    }).catch(error => {
+      if (error.response.status != 500) {
+        this.setState({errors: error.response.data})
+      } else {
+        this.setState({errors: {"": "Internal Server Error"}});
+      }
+    });
+  }
+
+  rawMarkup() {
+    let md = new Remarkable({
+      highlight: (str, lang) => {
+        if (lang && hljs.getLanguage(lang)) {
+          try {
+            return hljs.highlight(lang, str).value;
+          } catch (error) {}
+        }
+        try {
+          return hljs.highlightAuto(str).value;
+        } catch (error) {}
+        return '';
+      }
+    });
+    return { __html: md.render(this.state.content) };
   }
 
   handlePostDelete(event) {
@@ -63,102 +107,59 @@ class PostCreate extends Component {
     this.props.deletePost(this.props.params.slug, token);
   }
 
-  rawMarkup() {
-    var md = new Remarkable({
-      highlight: (str, lang) => {
-        if (lang && hljs.getLanguage(lang)) {
-          try {
-            return hljs.highlight(lang, str).value;
-          } catch (err) {}
-        }   
-
-        try {
-          return hljs.highlightAuto(str).value;
-        } catch (err) {}
-
-        return ''; // use external default escaping
-      }   
-    }); 
-    return { __html: md.render(this.state.content) };
-  }
-
-  handleChange(event) {
-    this.setState({
-      content: event.target.value
-    });
-  }
-
-  handleColorChange(color) {
-    this.setState({color: color.hex });
-  }
-
   render() {
-    if (this.props.errors) {
-      var errors = Object.keys(this.props.errors).map((f, index) => {
-        return (<div key={index}>{f}: {this.props.errors[f]}</div>)
-      });
-    }
-
+    let errors = Object.keys(this.state.errors).map((field, i) => {
+      return <li key={i}>{field}: {this.state.errors[field]}</li>
+    });
+    
     let colorPickerProps = {
       color: this.state.color,
-      handleColorChange: (color) => { this.setState({color: color.hex}) },
-      handleClick: () => { this.setState({ displayColorPicker: !this.state.displayColorPicker }) },
+      handleColorChange: (color) => {this.setState({color: color.hex})},
+      handleClick: () => {this.setState({displayColorPicker: !this.state.displayColorPicker})},
       showPicker: this.state.displayColorPicker
     };
-    let slug = this.props.params.slug;
-     
+
     return (
       <div className="body-content">
-        <div className="push--top" /> 
-        {slug && this.state.showModal && <Modal text={`Are you sure you want to delete '${slug}' ?`}
-                                     callback={this.handlePostDelete}
-                                     cancel={() => {
-                                       this.setState({
-                                         showModal: !this.state.showModal 
-                                       });}
-                                     } />
-        }
-        {slug && <button onClick={() => { this.setState({ showModal: true }); }}
-                         className="delete-btn"><i className="fa fa-trash-o fa-2x"></i></button>}
-        
-        <form>
-          <div className="form-error">{this.props.errors && errors}</div>
-          <input type="text" ref="title" placeholder="Title" onChange={(e) => { this.setState({title: e.target.value});}} value={this.state.title}  />
-          <input type="text" ref="date" placeholder="Date" onChange={(e) => { this.setState({date_created: e.target.value});}} value={slug ? this.state.date_created : moment().format("YYYY-MM-DD")} />
-          <input type="text" ref="summary" placeholder="Summary" onChange={(e) => { this.setState({summary: e.target.value});}} value={this.state.summary} />
-         
-          <ColorPicker {...colorPickerProps} />
-
-          <input type="checkbox"
-                 id="publish"
-                 ref="publish"
-                 value="publish" />
-            <label htmlFor="publish" style={{top: 2+"px", position: "relative"}}>
-              &nbsp;Publish <i className="fa fa-newspaper-o"></i>
-            </label>
-          <textarea onChange={this.handleChange}
-                    ref="postBody"
-                    value={this.state.content}
-                    className="editor"
-                    placeholder="Write your post here using markdown syntax..." />
-          <div className="hr-1" />
-          <div className="live-editor"
-               dangerouslySetInnerHTML={this.rawMarkup()} />
-          <div className="action-group">
-            <input type="submit" value="Save" onClick={(event) => {this.handlePostSave(event)}} />
-            <input type="button" value="Cancel" onClick={() => { browserHistory.push("/posts"); }} />
-          </div>
-        </form>
+        <div className="push--top" />
+        {this.props.params.slug &&
+         this.state.showModal &&
+         <Modal text={`Are you sure you want to delete '${this.refs.title.value}' ?`}
+           callback={this.handlePostDelete}
+           cancel={() => {
+             this.setState({
+               showModal: !this.state.showModal 
+             });}
+           } />
+        } 
+        <div className="form-error"><ul>{errors}</ul></div>
+        <input type="text" ref="title" placeholder="Title" />
+        <input type="text" ref="date" placeholder="Date" defaultValue={this.props.params.slug ? "" : moment().format("YYYY-MM-DD")} />
+        <input type="text" ref="summary" placeholder="Summary" />
+        <ColorPicker {...colorPickerProps} />
+        <input type="checkbox" ref="publish" id="publish" />
+        <label htmlFor="publish"> Publish</label>
+        <textarea ref="postBody" className="editor" placeholder="Write post here using markdown syntax..." onChange={(event) => {this.setState({content: event.target.value})}} />
+        <div className="hr-1" />
+        <div className="live-editor" dangerouslySetInnerHTML={this.rawMarkup()} />
+        <div className="action-group">
+          <input type="button" className="submit-button" value="Save" onClick={this.handleSave} />
+          <input type="button" value="Cancel" className="form-button" onClick={() => browserHistory.push("/posts")} />
+          <button className="delete-btn" onClick={() => this.setState({showModal: true})}><i className="fa fa-trash-o fa-2x"></i></button>
+        </div>
       </div>
     );
   }
 }
-
-const mapStateToProps = (state) => {
-  return {
-    errors: state.post.errors
-  }
+  
+PostCreate.propTypes = {
+  createPost: React.PropTypes.func.isRequired, 
+  editPost: React.PropTypes.func.isRequired,
+  deletePost: React.PropTypes.func.isRequired,
 }
 
-export default connect(mapStateToProps, { createPost, editPost, deletePost })(PostCreate);
+const mapStateToProps = (state) => {
+  return {}
+}
 
+export default connect(mapStateToProps, { createPost, editPost, deletePost})(PostCreate);
